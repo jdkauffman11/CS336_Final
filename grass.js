@@ -1,5 +1,3 @@
-if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
-
 var camera, scene, renderer;
 
 init();
