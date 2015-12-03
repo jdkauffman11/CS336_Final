@@ -21,8 +21,6 @@
 			<td>r, f - move up, down</td>
 			<td>i, j, k, l - look up, left, down, right</td>
 			<td>I, J, K, L - orbit down, right, up, left</td>
-			<td>O - face origin</td>
-			<td>p - put camera at origin</td>
 			<td>W - decrease fov</td>
 			<td>S - increase fov</td>
 		</tr>
@@ -99,9 +97,6 @@
 				return true;
 			case 'k':
 				c.rotateX(-5 * Math.PI / 180);
-				return true;
-			case 'O':
-				c.lookAt(new THREE.Vector3(0, 0, 0));
 				return true;
 			case 'S':
 				c.fov = Math.min(80, c.fov + 5);

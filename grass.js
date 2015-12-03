@@ -135,8 +135,7 @@ function simulate( time ) {
     }
 
     var i, il, particles, particle, pt, constrains, constrain;
-  }
-  /*
+
     // Aerodynamics forces
     if ( wind ) {
 
@@ -180,7 +179,7 @@ function simulate( time ) {
     }
 
 
-    // Floor Constains
+    // Floor Constrains
     for ( particles = cloth.particles, i = 0, il = particles.length
         ; i < il; i ++ ) {
 
@@ -196,4 +195,3 @@ function simulate( time ) {
 
 
 }
-*/
