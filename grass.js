@@ -2,6 +2,7 @@ var camera, scene, renderer;
 
 init();
 animate();
+var geometry;
 
 function init() {
 
@@ -10,7 +11,7 @@ function init() {
 
     scene = new THREE.Scene();
 
-    var geometry = new THREE.PlaneBufferGeometry( 100, 100 );
+    geometry = new THREE.PlaneBufferGeometry( 100, 100 );
 
     var texture = new THREE.CanvasTexture( generateTexture() );
 
@@ -115,8 +116,6 @@ function render() {
 
 var tmpForce = new THREE.Vector3();
 
-var lastTime;
-
 var wind = true;
 
 var windStrength = 2;
@@ -125,21 +124,14 @@ var windForce = new THREE.Vector3( 0, 0, 0 );
 
 
 
-function simulate( time ) {
-
-    if (!lastTime) {
-
-        lastTime = time;
-        return;
-
-    }
+function simulate( ) {
 
     var i, il, particles, particle, pt, constrains, constrain;
 
     // Aerodynamics forces
     if ( wind ) {
 
-        var face, faces = clothGeometry.faces, normal;
+        var face, faces = geometry.faces, normal;
 
         particles = cloth.particles;
 
