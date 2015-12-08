@@ -17,7 +17,7 @@ var restDistance = 25;
 
 
 var xSegs = 2; //
-var ySegs = 6; //
+var ySegs = 8; //
 
 var clothFunction = plane( restDistance * xSegs, restDistance * ySegs );
 
@@ -115,8 +115,8 @@ function satisifyConstrains( p1, p2, distance ) {
 
 function Cloth( w, h ) {
 
-	w = w || 10;
-	h = h || 10;
+	//w = w || 10;
+	//h = h || 10;
 	this.w = w;
 	this.h = h;
 
@@ -180,7 +180,6 @@ function Cloth( w, h ) {
 		] );
 
 	}
-
 
 	// While many system uses shear and bend springs,
 	// the relax constrains model seem to be just fine

@@ -180,7 +180,7 @@
 
 				// cloth material
 
-				var clothTexture = THREE.ImageUtils.loadTexture( 'flag.jpeg' );
+				var clothTexture = THREE.ImageUtils.loadTexture( 'grass_blade.jpeg' );
 				clothTexture.wrapS = clothTexture.wrapT = THREE.RepeatWrapping;
 				clothTexture.anisotropy = 16;
 
@@ -228,7 +228,7 @@
 
 				var groundTexture = THREE.ImageUtils.loadTexture( "ground.jpeg" );
 				groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
-				groundTexture.repeat.set( 10, 10 );
+				groundTexture.repeat.set( 5, 5 );
 				groundTexture.anisotropy = 16;
 
 				var groundMaterial = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x111111, map: groundTexture } );
