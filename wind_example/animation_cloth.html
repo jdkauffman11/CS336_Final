@@ -150,10 +150,10 @@
 	
 	function random() {
 		var d = new Date();
-		var seed = d.getMilliseconds();
-		var x = Math.cos(seed);
-		console.log("ASDF: " + seed);
-		return Math.abs(x);
+		var seed = d.getTime();
+		var x = Math.random()*seed;
+		x = Math.floor(Math.abs(x));
+		return x;
 	}
 	
 	function init() {
@@ -230,7 +230,10 @@
 				// cloth mesh
 
 				object = new THREE.Mesh(clothGeometry[i], clothMaterial);
-				object.position.set(-200 + (((random() % 60)+40) * i), -370, -200 + (((random()%60)+40) * j));
+				var randX = (random() % 1000);
+				var randZ = (random() % 1000);
+				console.log("RANDOM: " + randX);
+				object.position.set(-200 + randX, -370, -200 + randZ);
 				object.rotation.set(0, Math.random(), 0);
 				object.castShadow = true;
 				scene.add(object);
@@ -316,7 +319,6 @@
 		var timer = Date.now() * 0.0002;
 
 		var p = cloth.particles;
-		console.log(clothGeometry);
 		for (var j = 0; j < 900; j++) {
 			for (var i = 0, il = p.length; i < il; i++) {
 
