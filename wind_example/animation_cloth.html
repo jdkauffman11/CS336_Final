@@ -106,6 +106,7 @@
 
 <script>
 
+
 	/* testing cloth simulation */
 
 	var pinsFormation = [];
@@ -137,12 +138,12 @@
 	if (!Detector.webgl) Detector.addGetWebGLMessage();
 
 	var container, stats;
-	var camera, scene, renderer;
+	var scene, renderer;
 
 	var clothGeometry = [];
 	var object;
 
-	var rotate = true;
+	//var rotate = true;
 
 	init();
 	animate();
@@ -167,9 +168,11 @@
 
 		// camera
 
-		camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 10000);
-		camera.position.y = 50;
-		camera.position.z = 1500;
+		camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 10000);
+		camera.position.y = 1000;
+		camera.position.z = 2200;
+		camera.position.x += 500;
+		camera.rotateX(-20 * Math.PI / 180);
 		scene.add(camera);
 
 		// lights
@@ -256,11 +259,6 @@
 		mesh.receiveShadow = true;
 		scene.add(mesh);
 
-		// poles
-
-
-		//
-
 		renderer = new THREE.WebGLRenderer({antialias: true});
 		renderer.setPixelRatio(window.devicePixelRatio);
 		renderer.setSize(window.innerWidth, window.innerHeight);
@@ -333,17 +331,123 @@
 			clothGeometry[j].verticesNeedUpdate = true;
 		}
 
-		if (rotate) {
+//		if (rotate) {
+//
+//			camera.position.x = Math.cos(timer) * 1500;
+//			camera.position.z = Math.sin(timer) * 1500;
+//
+//		}
 
-			camera.position.x = Math.cos(timer) * 1500;
-			camera.position.z = Math.sin(timer) * 1500;
-
-		}
-
-		camera.lookAt(scene.position);
+		//camera.lookAt(scene.position);
 
 		renderer.render(scene, camera);
 
+	}
+
+	window.onkeypress = handleKeyPress;
+	var camera;
+	var ch;
+	function handleKeyPress(event)
+	{
+		ch = getChar(event);
+		if (cameraControl(camera, ch)) return;
+
+	}
+	function getChar(event) {
+		if (event.which == null) {
+			return String.fromCharCode(event.keyCode); // IE
+		} else if (event.which!=0 && event.charCode!=0) {
+			return String.fromCharCode(event.which);   // the rest
+		} else {
+			return null; // special key
+		}
+	}
+
+	function cameraControl(c, ch)
+	{
+		var distance = c.position.length();
+		var q, q2;
+
+		switch (ch)
+		{
+			// camera controls
+			case 'w':
+				c.translateZ(-15.0);
+				return true;
+			case 'a':
+				c.translateX(-15.0);
+				return true;
+			case 's':
+				c.translateZ(15.0);
+				return true;
+			case 'd':
+				c.translateX(15.0);
+				return true;
+			case 'r':
+				c.translateY(15.0);
+				return true;
+			case 'f':
+				c.translateY(-15.0);
+				return true;
+			case 'j':
+				// need to do extrinsic rotation about world y axis, so multiply camera's quaternion
+				// on left
+				q = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0),  5 * Math.PI / 180);
+				q2 = new THREE.Quaternion().copy(c.quaternion);
+				c.quaternion.copy(q).multiply(q2);
+				return true;
+			case 'l':
+				q = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0),  -5 * Math.PI / 180);
+				q2 = new THREE.Quaternion().copy(c.quaternion);
+				c.quaternion.copy(q).multiply(q2);
+				return true;
+			case 'i':
+				// intrinsic rotation about camera's x-axis
+				c.rotateX(5 * Math.PI / 180);
+				return true;
+			case 'k':
+				c.rotateX(-5 * Math.PI / 180);
+				return true;
+			case 'S':
+				c.fov = Math.min(80, c.fov + 5);
+				c.updateProjectionMatrix();
+				return true;
+			case 'W':
+				c.fov = Math.max(5, c.fov  - 5);
+				c.updateProjectionMatrix();
+				return true;
+
+			// alternates for arrow keys
+			case 'J':
+				//this.orbitLeft(5, distance)
+				c.translateZ(-distance);
+				q = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0),  5 * Math.PI / 180);
+				q2 = new THREE.Quaternion().copy(c.quaternion);
+				c.quaternion.copy(q).multiply(q2);
+				c.translateZ(distance);
+				return true;
+			case 'L':
+				//this.orbitRight(5, distance)
+				c.translateZ(-distance);
+				q = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0),  -5 * Math.PI / 180);
+				q2 = new THREE.Quaternion().copy(c.quaternion);
+				c.quaternion.copy(q).multiply(q2);
+				c.translateZ(distance);
+				return true;
+			case 'I':
+				//this.orbitUp(5, distance)
+				c.translateZ(-distance);
+				c.rotateX(-5 * Math.PI / 180);
+				c.translateZ(distance);
+				return true;
+			case 'K':
+				//this.orbitDown(5, distance)
+				c.translateZ(-distance);
+				c.rotateX(5 * Math.PI / 180);
+				c.translateZ(distance);
+				return true;
+		}
+		return false;
 	}
 
 </script>
