@@ -139,7 +139,7 @@
 	var container, stats;
 	var camera, scene, renderer;
 
-	var grassGeometry;
+	var clothGeometry = [];
 	var object;
 
 	var rotate = true;
@@ -217,8 +217,8 @@
 
 
 				// cloth geometry
-				grassGeometry = new THREE.ParametricGeometry(clothFunction, cloth.w, cloth.h);
-				grassGeometry.dynamic = true;
+				clothGeometry.push(new THREE.ParametricGeometry(clothFunction, cloth.w, cloth.h));
+				clothGeometry[i].dynamic = true;	
 
 				var uniforms = {texture: {type: "t", value: clothTexture}};
 				var vertexShader = document.getElementById('vertexShaderDepth').textContent;
@@ -226,7 +226,7 @@
 
 				// cloth mesh
 
-				object = new THREE.Mesh(grassGeometry, clothMaterial);
+				object = new THREE.Mesh(clothGeometry[i], clothMaterial);
 				object.position.set(-200 + (((random() % 60)+40) * i), -370, -200 + (((random()%60)+40) * j));
 				object.rotation.set(0, Math.random(), 0);
 				object.castShadow = true;
@@ -318,19 +318,20 @@
 		var timer = Date.now() * 0.0002;
 
 		var p = cloth.particles;
+		console.log(clothGeometry);
+		for (var j = 0; j < 900; j++) {
+			for (var i = 0, il = p.length; i < il; i++) {
 
-		for (var i = 0, il = p.length; i < il; i++) {
+				clothGeometry[j].vertices[i].copy(p[i].position);
 
-			grassGeometry.vertices[i].copy(p[i].position);
+			}
 
+			clothGeometry[j].computeFaceNormals();
+			clothGeometry[j].computeVertexNormals();
+
+			clothGeometry[j].normalsNeedUpdate = true;
+			clothGeometry[j].verticesNeedUpdate = true;
 		}
-
-		grassGeometry.computeFaceNormals();
-		grassGeometry.computeVertexNormals();
-
-		grassGeometry.normalsNeedUpdate = true;
-		grassGeometry.verticesNeedUpdate = true;
-
 
 		if (rotate) {
 

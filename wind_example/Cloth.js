@@ -230,23 +230,23 @@ function simulate( time ) {
 
 	// Aerodynamics forces
 	if ( wind ) {
+		for (var j = 0; j < clothGeometry.length; j++)
+		{
+			var face, faces = clothGeometry[j].faces, normal;
 
-		var face, faces = clothGeometry.faces, normal;
+			particles = cloth.particles;
 
-		particles = cloth.particles;
+			for (i = 0, il = faces.length; i < il; i++) {
 
-		for ( i = 0, il = faces.length; i < il; i ++ ) {
+				face = faces[i];
+				normal = face.normal;
 
-			face = faces[ i ];
-			normal = face.normal;
-
-			tmpForce.copy( normal ).normalize().multiplyScalar( normal.dot( windForce ) );
-			particles[ face.a ].addForce( tmpForce );
-			particles[ face.b ].addForce( tmpForce );
-			particles[ face.c ].addForce( tmpForce );
-
+				tmpForce.copy(normal).normalize().multiplyScalar(normal.dot(windForce));
+				particles[face.a].addForce(tmpForce);
+				particles[face.b].addForce(tmpForce);
+				particles[face.c].addForce(tmpForce);
+			}
 		}
-
 	}
 	
 	for ( particles = cloth.particles, i = 0, il = particles.length
