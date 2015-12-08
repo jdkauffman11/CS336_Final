@@ -37,7 +37,6 @@
 			Verlet integration with Constrains relaxation<br/>
 			Toggle: <a onclick="rotate = !rotate;">Camera</a> |
 			<a onclick="wind = !wind;">Wind</a> |
-			<a onclick="sphere.visible = !sphere.visible;">Ball</a> |
 			<a onclick="togglePins();">Pins</a>
 		</div>
 
@@ -126,7 +125,6 @@
 			var camera, scene, renderer;
 
 			var clothGeometry;
-			var sphere;
 			var object;
 
 			var rotate = true;
@@ -214,15 +212,6 @@
 					side: THREE.DoubleSide
 				} );
 
-				// sphere
-
-				var ballGeo = new THREE.SphereGeometry( ballSize, 20, 20 );
-				var ballMaterial = new THREE.MeshPhongMaterial( { color: 0xaaaaaa } );
-
-				sphere = new THREE.Mesh( ballGeo, ballMaterial );
-				sphere.castShadow = true;
-				sphere.receiveShadow = true;
-				scene.add( sphere );
 
 				// ground
 
@@ -266,7 +255,6 @@
 
 				window.addEventListener( 'resize', onWindowResize, false );
 
-				sphere.visible = !true
 
 			}
 
@@ -316,7 +304,6 @@
 				clothGeometry.normalsNeedUpdate = true;
 				clothGeometry.verticesNeedUpdate = true;
 
-				sphere.position.copy( ballPosition );
 
 				if ( rotate ) {
 
