@@ -177,7 +177,9 @@
 				scene.add( light );
 
 				// cloth material
-
+				for (var i = 0; i < 30; i++) {
+					for (var j = 0; j < 30; j++) {
+						
 				var clothTexture = THREE.ImageUtils.loadTexture( 'grass_blade.jpeg' );
 				clothTexture.wrapS = clothTexture.wrapT = THREE.RepeatWrapping;
 				clothTexture.anisotropy = 16;
@@ -190,29 +192,32 @@
 					alphaTest: 0.5
 				} );
 
-				// cloth geometry
-				clothGeometry = new THREE.ParametricGeometry( clothFunction, cloth.w, cloth.h );
-				clothGeometry.dynamic = true;
 
-				var uniforms = { texture:  { type: "t", value: clothTexture } };
-				var vertexShader = document.getElementById( 'vertexShaderDepth' ).textContent;
-				var fragmentShader = document.getElementById( 'fragmentShaderDepth' ).textContent;
+						// cloth geometry
+						clothGeometry = new THREE.ParametricGeometry(clothFunction, cloth.w, cloth.h);
+						clothGeometry.dynamic = true;
 
-				// cloth mesh
+						var uniforms = {texture: {type: "t", value: clothTexture}};
+						var vertexShader = document.getElementById('vertexShaderDepth').textContent;
+						var fragmentShader = document.getElementById('fragmentShaderDepth').textContent;
 
-				object = new THREE.Mesh( clothGeometry, clothMaterial );
-				object.position.set( 0, -370, 0 );
-				object.castShadow = true;
-				scene.add( object );
+						// cloth mesh
 
-				object.customDepthMaterial = new THREE.ShaderMaterial( {
-					uniforms: uniforms,
-					vertexShader: vertexShader,
-					fragmentShader: fragmentShader,
-					side: THREE.DoubleSide
-				} );
+						object = new THREE.Mesh(clothGeometry, clothMaterial);
+						object.position.set(-200 + (60 * i), -370, -200 + (60 * j));
+						object.rotation.set(0, Math.random(), 0);
+						object.castShadow = true;
+						scene.add(object);
 
-
+						object.customDepthMaterial = new THREE.ShaderMaterial({
+							uniforms: uniforms,
+							vertexShader: vertexShader,
+							fragmentShader: fragmentShader,
+							side: THREE.DoubleSide
+						});
+					}
+				}
+				
 				// ground
 
 				var groundTexture = THREE.ImageUtils.loadTexture( "ground.jpeg" );
