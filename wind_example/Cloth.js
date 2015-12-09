@@ -32,9 +32,7 @@ var TIMESTEP_SQ = TIMESTEP * TIMESTEP;
 
 var pins = [];
 
-
-var wind = true;
-var windStrength = 2;
+var windStrength = 0.035;
 var windForce = new THREE.Vector3( 0, 0, 0 );
 
 var tmpForce = new THREE.Vector3();
@@ -229,9 +227,8 @@ function simulate( time ) {
 	var i, il, particles, particle, pt, constrains, constrain;
 
 	// Aerodynamics forces
-	if ( wind ) {
-		for (var j = 0; j < clothGeometry.length; j++)
-		{
+	for (var j = 0; j < clothGeometry.length; j++)
+	{
 			var face, faces = clothGeometry[j].faces, normal;
 
 			particles = cloth.particles;
@@ -246,7 +243,7 @@ function simulate( time ) {
 				particles[face.b].addForce(tmpForce);
 				particles[face.c].addForce(tmpForce);
 			}
-		}
+
 	}
 	
 	for ( particles = cloth.particles, i = 0, il = particles.length
